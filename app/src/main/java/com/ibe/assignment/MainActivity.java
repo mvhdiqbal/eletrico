@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         String rebateStr = editTextRebate.getText().toString().trim();
 
         if (unitsStr.isEmpty() || rebateStr.isEmpty()) {
-            showToast("Please entero values for units and rebate.");
+            showToast("Please enter values for units and rebate.");
             return;
         }
 
