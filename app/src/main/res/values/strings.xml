@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="email_your_email_example_com">Email: muhdiqbalrahim@gamil.com</string>
+    <string name="enter_units_kwh">Enter units (kWh)</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="phone_1234567890">Phone: 0189560961</string>
+    <string name="enter_rebate_percentage_0_5">Enter rebate percentage (0% - 5%)</string>
+    <string name="calculate">Calculate</string>
+    <string name="about">About</string>
+</resources>
