@@ -2,6 +2,7 @@ package com.ibe.assignment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextRebate;
     private TextView textViewResult;
 
+    private ElectricityBillCalculator billCalculator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonCalculate = findViewById(R.id.buttonCalculate);
         textViewResult = findViewById(R.id.textViewResult);
 
-        ElectricityBillCalculator billCalculator = new ElectricityBillCalculator();
+        billCalculator = new ElectricityBillCalculator();
 
         buttonCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,61 +47,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void calculateBill() {
-        String unitsStr = editTextUnits.getText().toString().trim();
-        String rebateStr = editTextRebate.getText().toString().trim();
+        String unitsStr = editTextUnits.getText().toString();
+        String rebateStr = editTextRebate.getText().toString();
 
-        if (unitsStr.isEmpty() || rebateStr.isEmpty()) {
+        if (!unitsStr.isEmpty() && !rebateStr.isEmpty()) {
+            try {
+                double units = Double.parseDouble(unitsStr);
+                double rebate = Double.parseDouble(rebateStr);
+
+                if (units > 0 && rebate >= 0 && rebate <= 5) {
+                    double billAmount = billCalculator.calculateElectricityBill(units, rebate);
+                    textViewResult.setText(String.format("Estimated Bill: %.2f sen", billAmount));
+                } else {
+                    showToast("Please enter valid values (units > 0, rebate between 0 - 5%).");
+                }
+            } catch (NumberFormatException e) {
+                showToast("Please enter valid numeric values for units and rebate.");
+            }
+        } else {
             showToast("Please enter values for units and rebate.");
-            return;
         }
-
-        try {
-            double units = Double.parseDouble(unitsStr);
-            double rebate = Double.parseDouble(rebateStr);
-
-            if (units <= 0) {
-                showToast("Units must be greater than zero.");
-                return;
-            }
-
-            if (rebate < 0 || rebate > 5) {
-                showToast("Rebate percentage should be between 0% and 5%.");
-                return;
-            }
-
-            double billAmount = calculateElectricityBill(units, rebate);
-            textViewResult.setText(String.format("Estimated Bill: %.2f sen", billAmount));
-
-        } catch (NumberFormatException e) {
-            showToast("Please enter valid numeric values for units and rebate.");
-        }
-    }
-
-    private double calculateElectricityBill(double units, double rebatePercentage) {
-        double totalCharge = 0;
-
-        // Calculate bill based on electricity unit blocks and rates
-        if (units > 0 && rebatePercentage >= 0 && rebatePercentage <= 5) {
-            if (units <= 200) {
-                totalCharge = units * 21.8;
-            } else if (units <= 300) {
-                totalCharge = 200 * 21.8 + (units - 200) * 33.4;
-            } else if (units <= 600) {
-                totalCharge = 200 * 21.8 + 100 * 33.4 + (units - 300) * 51.6;
-            } else {
-                totalCharge = 200 * 21.8 + 100 * 33.4 + 300 * 51.6 + (units - 600) * 54.6;
-            }
-
-            totalCharge *= (1 - (rebatePercentage / 100)); // Apply rebate percentage
-        }
-
-        return totalCharge;
     }
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
+
 
 
 
