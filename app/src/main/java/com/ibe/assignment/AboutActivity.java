@@ -1,8 +1,6 @@
 package com.ibe.assignment;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +22,7 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
-        @SuppressLint("CutPasteId") TextView textViewGithub = findViewById(R.id.textViewEmail);
+        TextView textViewGithub = findViewById(R.id.textViewGithub);
         textViewGithub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,7 +31,6 @@ public class AboutActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("QueryPermissionsNeeded")
     private void sendEmail() {
         String email = "your.email@example.com";
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -44,12 +41,16 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("QueryPermissionsNeeded")
     private void openGithub() {
-        String githubUrl = "https://github.com/mvhdiqbal/eletrico";
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(githubUrl));
+        String url = "https://github.com/mvhdiqbal/eletrico";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
     }
 }
+
+
+
+
+

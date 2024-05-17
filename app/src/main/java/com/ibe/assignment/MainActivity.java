@@ -1,8 +1,8 @@
 package com.ibe.assignment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextUnits;
     private EditText editTextRebate;
     private TextView textViewResult;
-
     private ElectricityBillCalculator billCalculator;
 
     @Override
@@ -27,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         editTextRebate = findViewById(R.id.editTextRebate);
         Button buttonCalculate = findViewById(R.id.buttonCalculate);
         textViewResult = findViewById(R.id.textViewResult);
+        Button buttonAbout = findViewById(R.id.buttonAbout);
 
         billCalculator = new ElectricityBillCalculator();
 
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button buttonAbout = findViewById(R.id.buttonAbout);
         buttonAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("DefaultLocale")
     private void calculateBill() {
         String unitsStr = editTextUnits.getText().toString();
         String rebateStr = editTextRebate.getText().toString();
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
+
 
 
 
